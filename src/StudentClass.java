@@ -33,26 +33,23 @@ public class StudentClass {
     public HashMap<SubjectsStudents, Integer> getGrades() {return grades;}
     public void setGrades(HashMap<SubjectsStudents, Integer> grades) {this.grades = grades;}
 
-
-    static public List<StudentClass> sweepStudents(List<StudentClass> students)
+    private double avgGrades()
     {
-        for(StudentClass student: students) {
-            double avgGrades = 0;
-            if (!student.grades.isEmpty()) {
-                for (Integer grade : student.grades.values()) {
-                    avgGrades += grade;
-                }
-                avgGrades = avgGrades / student.grades.size();
+        double avgGrades = 0;
+        if (!grades.isEmpty()) {
+            for (Integer grade : grades.values()) {
+                avgGrades += grade;
             }
-
-            if (avgGrades < 3) {
-                students.remove(student);
-            }
-            else {
-                student.course+=1;
-            }
+            avgGrades = avgGrades / grades.size();
         }
-        return students;
+        return avgGrades;
+    }
+    static public void sweepStudents(List<StudentClass> students)
+    {
+        students.removeIf(s -> s.avgGrades()<3);
+        for(StudentClass student: students) {
+                student.course+=1;
+        }
     }
 
     static public  String printStudents(List<StudentClass> students, int course)
@@ -64,7 +61,11 @@ public class StudentClass {
         return output;
     }
 
-
+@Override
+    public String toString()
+{
+    return name+" "+specialization+" "+course;
+}
 
 
 
